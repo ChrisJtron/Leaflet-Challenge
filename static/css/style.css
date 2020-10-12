@@ -8,3 +8,38 @@ body,
 html {
   height: 100%;
 }
+
+.legend {
+  padding: 10px;
+  font-family: Sanchez, serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  color:black;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.legend .first {
+  background-color: #fcbba1
+}
+
+.legend .second {
+  background-color: #fc9272
+}
+.legend .third {
+  background-color: #fb6a4a
+}
+
+.legend .fourth {
+  background-color: #ef3b2c;
+}
+
+.legend .fifth {
+  background-color: #cb181d
+}
+
+.legend .sixth{
+  background-color: #99000d
+}
