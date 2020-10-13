@@ -1,11 +1,12 @@
 var layers={
     earthquakes: new L.layerGroup(),
+    tectonics: new L.layerGroup(),
     tornadoes: new L.layerGroup()
 };
 
 // Create a map object
 var myMap = L.map("mapid", {
-    center: [40.77, -112.71],
+    center: [0, 0],
     zoom: 3,
     layers: [layers.earthquakes]
 });
@@ -14,7 +15,7 @@ var myMap = L.map("mapid", {
   var satellite=L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
-    maxZoom: 18,
+    maxZoom: 20,
     zoomOffset: -1,
     id: "mapbox/satellite-streets-v11",
     accessToken: API_KEY
@@ -26,6 +27,15 @@ var myMap = L.map("mapid", {
     maxZoom: 18,
     zoomOffset: -1,
     id: "mapbox/streets-v11",
+    accessToken: API_KEY
+  });
+
+  var light= L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/light-v10",
     accessToken: API_KEY
   });
 
@@ -73,12 +83,14 @@ var myMap = L.map("mapid", {
 
         var baseLayers= {
             "Satellite": satellite,
-            "Street": street
+            "Street": street,
+            "Light": light
         };
 
         
         var overlays= {
-            "Earthquakes": layers["earthquakes"]
+            "Earthquakes": layers["earthquakes"],
+            "Tectonic Plates": layers["tectonics"]
         };
 
         L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(myMap);
@@ -108,3 +120,31 @@ var myMap = L.map("mapid", {
 
 
     });
+
+    var geoURL= "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
+    d3.json(geoURL, function(data) {
+        var features=(data.features);
+
+        features.forEach(function(feature) {
+            var type= feature.geometry.type;
+            //console.log(type);
+            var coords= feature.geometry.coordinates;
+            //console.log(coords);
+
+            var lines= [{
+                "type": type,
+                "coordinates": coords
+            }];
+
+            var lineStyle={
+                "color": "yellow",
+                "weight": 2
+            };
+
+            var newLine=L.geoJSON(lines, {style: lineStyle});
+            newLine.addTo(layers['tectonics']);
+        });
+    });
+
+
