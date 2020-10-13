@@ -1,1 +1,1 @@
-# Leaflet-Challenge
+Earthquakes and Tectonic Plates.  This project maps the locations, magnitudes, and depths of earthquakes, as well as tectonic plate locations using a geoJSON api call.  Leaflet is used to control the layers which the user can add or take off of the map.  
