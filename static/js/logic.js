@@ -121,6 +121,7 @@ var myMap = L.map("mapid", {
 
     });
 
+    //Tectonic Plates
     var geoURL= "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
     d3.json(geoURL, function(data) {
